@@ -1,0 +1,41 @@
+application:
+  name: cloudslip-facade
+  message: Welcome to cloudslip-facade
+
+server:
+  port: 8080
+
+spring:
+  application:
+    name: cloudslip-facade
+  data:
+    mongodb:
+      host: ${MONGO_SERVER}
+      port: ${MONGO_PORT}
+      authentication-database: ${MONGO_AUTH_DATABASE}
+      username: ${MONGO_USERNAME}
+      password: ${MONGO_PASSWORD}
+      database: cloudslip_facade
+  main:
+    allow-bean-definition-overriding: true
+
+jwt:
+  auth:
+    header: x-auth-token
+  expire:
+    minutes: 300
+
+security:
+  token:
+    secret:
+      key: Asjfwol2asf123142Ags1k23hnSA36as6f4qQ324FEsvb
+
+env:
+  super-admin-login-enabled: true
+  usermanagement-service:
+    base-url: http://${CLOUDSLIP_USER_MANAGEMENT_SERVICE_NAME}/
+  pipeline-service:
+    base-url: http://${CLOUDSLIP_PIPELINE_SERVICE_NAME}/
+  listener-service:
+    base-url: http://${CLOUDSLIP_LISTENER_SERVICE_NAME}/
+    api-access-token: ${CLOUDSLIP_LISTENER_SERVICE_API_ACCESS_TOKEN}

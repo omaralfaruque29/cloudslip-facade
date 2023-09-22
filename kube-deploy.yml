@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudslip-facade-service
+  namespace: cloudslip
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloudslip-facade-service
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 0
+  minReadySeconds: 25
+  template:
+    metadata:
+      annotations:
+        prometheus.io/path: "/prometheus"
+        prometheus.io/port: '8081'
+        prometheus.io/scrape: 'true'
+      labels:
+        app: cloudslip-facade-service
+    spec:
+      terminationGracePeriodSeconds: 60
+      containers:
+      - name: cloudslip-facade-service
+        imagePullPolicy: Always
+        image: cloudslip/cloudslip-facade-service:latest
+        resources:
+          requests:
+            cpu: 500m
+            memory: 512Mi
+          limits:
+            cpu: 1000m
+            memory: 1024Mi
+        env:
+        - name: MONGO_SERVER
+          value: "72.22.68.40"
+        - name: MONGO_PORT
+          value: "27017"
+        - name: MONGO_AUTH_DATABASE
+          value: "admin"
+        - name: MONGO_USERNAME
+          value: "mongoAdmin"
+        - name: MONGO_PASSWORD
+          value: "abc123"
+        - name: CLOUDSLIP_USER_MANAGEMENT_SERVICE_NAME
+          value: "cloudslip-usermanagement-service"
+        - name: CLOUDSLIP_PIPELINE_SERVICE_NAME
+          value: "cloudslip-pipeline-service"
+        - name: CLOUDSLIP_LISTENER_SERVICE_NAME
+          value: "cloudslip-listener-service"
+        - name: CLOUDSLIP_LISTENER_SERVICE_API_ACCESS_TOKEN
+          value: "015c2e6e26995df4dd7c5c53021af347b3bbe7be5869088cc069dd66928a6f44tZUrNHBSEx"
+        ports:
+        - containerPort: 8080
+        - containerPort: 8081
+      imagePullSecrets:
+      - name: regcred

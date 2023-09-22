@@ -1,0 +1,41 @@
+application:
+  name: cloudslip-facade
+  message: Welcome to cloudslip-facade
+
+server:
+  port: 8080
+
+spring:
+  application:
+    name: cloudslip-facade
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      authentication-database: admin
+      username: mongoAdmin
+      password: abc123
+      database: cloudslip_facade
+  main:
+    allow-bean-definition-overriding: true
+
+jwt:
+  auth:
+    header: x-auth-token
+  expire:
+    minutes: 300
+
+security:
+  token:
+    secret:
+      key: Asjfwol2asf123142Ags1k23hnSA36as6f4qQ324FEsvb
+
+env:
+  super-admin-login-enabled: true
+  usermanagement-service:
+    base-url: http://localhost:8081/
+  pipeline-service:
+    base-url: http://localhost:9081/
+  listener-service:
+    base-url: http://35.239.103.165:8020
+    api-access-token: af0901e6705a22a4314b7929a7c3ac792b46d385308d9b6399570b48e9bb13a6JxVqsd9CpJ
